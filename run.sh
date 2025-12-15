@@ -1,4 +1,5 @@
 #!/bin/bash
+export HISTFILE=/dev/null
 echo -e "Bắt đầu cài đặt bypass"
 echo "[+] Bật chế độ bypass"
 sysctl -w net.core.rmem_max=134217728 &>/dev/null
