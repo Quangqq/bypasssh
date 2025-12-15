@@ -1,4 +1,5 @@
 #!/bin/bash
+
 export HISTFILE=/dev/null
 echo -e "Bắt đầu cài đặt bypass"
 echo "[+] Bật chế độ bypass"
@@ -19,7 +20,6 @@ sysctl -w fs.file-max=2097152 &>/dev/null
 ulimit -n 999999 2>/dev/null
 echo "* soft nofile 999999" >> /etc/security/limits.conf
 echo "* hard nofile 999999" >> /etc/security/limits.conf
-chattr +i /etc/passwd /etc/shadow /etc/ssh/sshd_config
 iptables -F && iptables -X && iptables -t nat -F && iptables -t mangle -F
 iptables -P INPUT ACCEPT && iptables -P FORWARD ACCEPT && iptables -P OUTPUT ACCEPT
 nft flush ruleset &>/dev/null
