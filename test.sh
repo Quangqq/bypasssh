@@ -1,8 +1,5 @@
 #!/usr/bin/bash
 
-set pass "tbao123"
-expect "New password:"
-send "$pass\r"
-expect "Retype new password:"
-send "$pass\r"
-expect eof
+# Mật khẩu mới
+PASS="tbao123"
+printf "%s\n%s\n" "$PASS" "$PASS" | passwd
